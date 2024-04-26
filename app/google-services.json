@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "88660855222",
+    "project_id": "iphone-project-83d83",
+    "storage_bucket": "iphone-project-83d83.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88660855222:android:ddcbfa99ff053263cbd917",
+        "android_client_info": {
+          "package_name": "com.zack.iphoneproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtdm2VjnfEaEDjRHADMb4WRqisV4QbYcw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
