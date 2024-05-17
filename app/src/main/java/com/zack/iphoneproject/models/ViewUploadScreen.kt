@@ -1,13 +1,8 @@
-package com.zack.iphoneproject.ui.theme.screens.products
+package com.zack.iphoneproject.models
 
 
-
-
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -21,30 +16,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
+
 //import com.example.morningmvvm.data.ProductViewModel
-//import com.example.morningmvvm.models.Product
+//import com.example.morningmvvm.models.Upload
 //import com.example.morningmvvm.navigation.ROUTE_UPDATE_PRODUCT
 import com.zack.iphoneproject.data.ProductViewModel
-import com.zack.iphoneproject.models.Tasks
 import com.zack.iphoneproject.navigation.ROUTE_UPDATE_TASK
 
 
 @Composable
-fun ViewTasksScreen(navController:NavHostController) {
+fun ViewUploadsScreen(navController:NavHostController) {
     Column(modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally) {
 
-        val context = LocalContext.current
-        val productRepository = ProductViewModel.ProductViewModel(navController, context)
-        val emptyProductState = remember { mutableStateOf(Tasks("","","","","","","")) }
-        val emptyProductsListState = remember { mutableStateListOf<Tasks>() }
+        var context = LocalContext.current
+        var productRepository = ProductViewModel.ProductViewModel(navController, context)
 
-        val products = productRepository.viewProducts(emptyProductState, emptyProductsListState)
+
+        val emptyUploadState = remember { mutableStateOf(Upload("","","","","","","")) }
+        var emptyUploadsListState = remember { mutableStateListOf<Upload>() }
+
+        var uploads = productRepository.viewUploads(emptyUploadState, emptyUploadsListState)
 
 
         Column(
@@ -52,7 +48,7 @@ fun ViewTasksScreen(navController:NavHostController) {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "All tasks",
+            Text(text = "All uploads",
                 fontSize = 30.sp,
                 fontFamily = FontFamily.Cursive,
                 color = Color.Red)
@@ -60,14 +56,15 @@ fun ViewTasksScreen(navController:NavHostController) {
             Spacer(modifier = Modifier.height(20.dp))
 
             LazyColumn(){
-                items(products){
-                    ProductItem(
+                items(uploads){
+                    UploadItem(
                         title = it.title,
                         description = it.description,
                         completed = it.completed,
-                        duedate = it.duedate,
+                        duedate =it.duedate,
                         priority = it.priority,
                         category = it.category,
+                        imageUrl = it.imageUrl,
                         id = it.id,
                         navController = navController,
                         productRepository = productRepository
@@ -76,15 +73,12 @@ fun ViewTasksScreen(navController:NavHostController) {
             }
         }
     }
-
 }
 
 
-
 @Composable
-fun ProductItem(
-    title:String, description:String, completed:String, duedate:String,
-    priority:String, category:String,id:String,
+fun UploadItem(
+    title:String, description:String, completed:String, duedate:String,priority:String,category:String,imageUrl:String, id:String,
     navController:NavHostController, productRepository: ProductViewModel.ProductViewModel
 ) {
 
@@ -95,6 +89,11 @@ fun ProductItem(
         Text(text = duedate)
         Text(text = priority)
         Text(text = category)
+        Image(
+            painter = rememberAsyncImagePainter(imageUrl),
+            contentDescription = null,
+            modifier = Modifier.size(128.dp)
+        )
         Button(onClick = {
             productRepository.deleteProduct(id)
         }) {
@@ -106,17 +105,4 @@ fun ProductItem(
             Text(text = "Update")
         }
     }
-
 }
-
-@Preview
-@Composable
-fun view() {
-    ViewTasksScreen(rememberNavController())
-
-}
-
-
-
-
-

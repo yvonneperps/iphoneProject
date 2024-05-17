@@ -31,9 +31,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
-import com.example.afternoonmvvm.data.AuthViewModel
+import com.zack.iphoneproject.data.AuthViewModel
 //import com.zack.iphoneproject.data.AuthViewModel
-//import com.example.afternoonmvvm.data.AuthViewModel
+//import com.zack.iphoneproject.data.AuthViewModel
 //import com.example.afternoonmvvm.navigation.ROUTE_HOME
 //import com.example.afternoonmvvm.navigation.ROUTE_LOGIN
 import com.zack.iphoneproject.navigation.ROUTE_HOME
@@ -58,9 +58,34 @@ fun RegisterScreen(navController: NavController){
             fontSize = 30.sp)
         Spacer(modifier = Modifier.height(20.dp))
 
+
+        OutlinedTextField(
+            value = email, onValueChange = { email = it },
+            label = { Text(text = "Enter your Username") },
+
+            keyboardOptions = KeyboardOptions . Default . copy (imeAction = ImeAction.Next),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+
+            )
+        Spacer(modifier = Modifier.height(20.dp))
+
         OutlinedTextField(
             value = email, onValueChange = { email = it },
             label = { Text(text = "Enter Email") },
+
+            keyboardOptions = KeyboardOptions . Default . copy (imeAction = ImeAction.Next),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+
+            )
+        Spacer(modifier = Modifier.height(20.dp))
+
+        OutlinedTextField(
+            value = email, onValueChange = { email = it },
+            label = { Text(text = "Enter time zone") },
 
             keyboardOptions = KeyboardOptions . Default . copy (imeAction = ImeAction.Next),
             modifier = Modifier

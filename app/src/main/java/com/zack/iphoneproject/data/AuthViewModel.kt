@@ -1,4 +1,4 @@
-package com.example.afternoonmvvm.data
+package com.zack.iphoneproject.data
 
 import android.app.ProgressDialog
 import android.content.Context
@@ -7,53 +7,46 @@ import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.zack.iphoneproject.models.User
-import com.zack.iphoneproject.navigation.ROUTE_HOME
 import com.zack.iphoneproject.navigation.ROUTE_LOGIN
+import com.zack.iphoneproject.navigation.ROUTE_ONBOARDING
 import com.zack.iphoneproject.navigation.ROUTE_REGISTER
-
-//import com.example.morningmvvm.models.User
-//import com.example.morningmvvm.navigation.ROUTE_HOME
-//import com.example.morningmvvm.navigation.ROUTE_LOGIN
-//import com.example.morningmvvm.navigation.ROUTE_REGISTER
-////import com.google.firebase.auth.FirebaseAuth
-////import com.google.firebase.database.FirebaseDatabase
 
 class AuthViewModel(var navController: NavController, var context: Context){
 
-    var mAuth:FirebaseAuth
-    val progress:ProgressDialog
+    var mAuth: FirebaseAuth
+    val progress: ProgressDialog
 
     init {
         mAuth= FirebaseAuth.getInstance()
-        progress=ProgressDialog(context)
+        progress= ProgressDialog(context)
         progress.setTitle("Loading")
         progress.setMessage("PLease Wait.....")
     }
     fun signup(email:String,pass:String,confpass:String){
-//       progress.show()
+        progress.show()
 
         if (email.isBlank() || pass.isBlank() ||confpass.isBlank()){
-//            progress.dismiss()
-            Toast.makeText(context,"Please email and password cannot be blank",Toast.LENGTH_LONG).show()
+            progress.dismiss()
+            Toast.makeText(context,"Please email and password cannot be blank", Toast.LENGTH_LONG).show()
             return
         }else if (pass != confpass){
-            Toast.makeText(context,"Password do not match",Toast.LENGTH_LONG).show()
+            Toast.makeText(context,"Password do not match", Toast.LENGTH_LONG).show()
             return
         }else{
             mAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener {
                 if (it.isSuccessful){
 
-                    val userdata=User(email,pass,mAuth.currentUser!!.uid)
-                    val regRef=FirebaseDatabase.getInstance().getReference()
+                    val userdata= User(email,pass,mAuth.currentUser!!.uid)
+                    val regRef= FirebaseDatabase.getInstance().getReference()
                         .child("Users/"+mAuth.currentUser!!.uid)
                     regRef.setValue(userdata).addOnCompleteListener {
 
                         if (it.isSuccessful){
-                            Toast.makeText(context,"Registered Successfully",Toast.LENGTH_LONG).show()
-                            navController.navigate(ROUTE_HOME)
+                            Toast.makeText(context,"Registered Successfully", Toast.LENGTH_LONG).show()
+                            navController.navigate(ROUTE_ONBOARDING)
 
                         }else{
-                            Toast.makeText(context,"${it.exception!!.message}",Toast.LENGTH_LONG).show()
+                            Toast.makeText(context,"${it.exception!!.message}", Toast.LENGTH_LONG).show()
                             navController.navigate(ROUTE_LOGIN)
                         }
                     }
@@ -70,11 +63,11 @@ class AuthViewModel(var navController: NavController, var context: Context){
         mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener {
             progress.dismiss()
             if (it.isSuccessful){
-                Toast.makeText(context,"Succeffully Logged in",Toast.LENGTH_LONG).show()
-                navController.navigate(ROUTE_HOME)
+                Toast.makeText(context,"Succeffully Logged in", Toast.LENGTH_LONG).show()
+                navController.navigate(ROUTE_ONBOARDING)
 //                navController.navigate(ROUTE_REGISTER)TO TAKE YOU TO A DIIFFERNT PAGE
             }else{
-                Toast.makeText(context,"${it.exception!!.message}",Toast.LENGTH_LONG).show()
+                Toast.makeText(context,"${it.exception!!.message}", Toast.LENGTH_LONG).show()
                 navController.navigate(ROUTE_LOGIN)
             }
         }
@@ -89,5 +82,3 @@ class AuthViewModel(var navController: NavController, var context: Context){
     }
 
 }
-
-

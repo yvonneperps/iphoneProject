@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,12 +29,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.afternoonmvvm.data.AuthViewModel
-//import com.example.afternoonmvvm.data.AuthViewModel
-//import com.example.afternoonmvvm.data.AuthViewModel
-//import com.example.afternoonmvvm.data.AuthViewModel
+import com.zack.iphoneproject.data.AuthViewModel
+import com.zack.iphoneproject.navigation.ROUTE_HOME
+//import com.zack.iphoneproject.data.AuthViewModel
+//import com.zack.iphoneproject.data.AuthViewModel
+//import com.zack.iphoneproject.data.AuthViewModel
 //import com.example.firebaseauth.data.AuthViewModel
 //import com.example.firebaseauth.navigation.ROUTE_HOME
 //import com.example.firebaseauth.navigation.ROUTE_REGISTER
@@ -49,12 +48,12 @@ fun LoginScreen(navController: NavController){
     var context= LocalContext.current
     Column(modifier = Modifier
         .fillMaxSize()
-        .background(Color.Blue),
+        .background(Color.Red),
         horizontalAlignment = Alignment.CenterHorizontally) {
 
         Text(text = "Login here",
             color = Color.Cyan,
-            fontFamily = FontFamily.Cursive,
+            fontFamily = FontFamily.Serif,
             fontSize = 30.sp)
         Spacer(modifier = Modifier.height(20.dp))
 

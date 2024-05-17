@@ -1,7 +1,6 @@
 package com.zack.iphoneproject.ui.theme.screens.products
 
 
-import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -42,8 +41,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.zack.iphoneproject.data.ProductViewModel
-import com.zack.iphoneproject.models.Products
-import com.zack.iphoneproject.navigation.ROUTE_VIEW_PRODUCT
+import com.zack.iphoneproject.models.Tasks
+import com.zack.iphoneproject.navigation.ROUTE_VIEW_TASK
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,18 +51,24 @@ fun UpdateProductsScreen(navController: NavHostController,id:String) {
     Column(modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally) {
         var context = LocalContext.current
-        var name by remember { mutableStateOf("") }
-        var quantity by remember { mutableStateOf("") }
-        var price by remember { mutableStateOf("") }
+        var title by remember { mutableStateOf("") }
+        var description by remember { mutableStateOf("") }
+        var completed by remember { mutableStateOf("") }
+        var duedate by remember { mutableStateOf("") }
+        var priority by remember { mutableStateOf("") }
+        var category by remember { mutableStateOf("") }
 
         var currentDataRef = FirebaseDatabase.getInstance().getReference()
-            .child("Products/$id")
+            .child("Tasks/$id")
         currentDataRef.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                var product = snapshot.getValue(Products::class.java)
-                name = product!!.name
-                quantity = product!!.quantity
-                price = product!!.price
+                var product = snapshot.getValue(Tasks::class.java)
+                title = product!!.title
+                description = product!!.description
+                completed = product!!.completed
+                duedate = product!!.duedate
+                priority = product!!.priority
+                category = product!!.category
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -71,7 +77,7 @@ fun UpdateProductsScreen(navController: NavHostController,id:String) {
         })
 
         Text(
-            text = "Add product",
+            text = "Add task",
             fontSize = 30.sp,
             fontFamily = FontFamily.Cursive,
             color = Color.Red,
@@ -80,32 +86,65 @@ fun UpdateProductsScreen(navController: NavHostController,id:String) {
             textDecoration = TextDecoration.Underline
         )
 
-        var productName by remember { mutableStateOf(TextFieldValue(name)) }
-        var productQuantity by remember { mutableStateOf(TextFieldValue(quantity)) }
-        var productPrice by remember { mutableStateOf(TextFieldValue(price)) }
+        var productTitle by remember { mutableStateOf(TextFieldValue(title)) }
+        var productDescription by remember { mutableStateOf(TextFieldValue(description)) }
+        var productCompleted by remember { mutableStateOf(TextFieldValue(completed)) }
+        var productDueDate by remember { mutableStateOf(TextFieldValue(duedate)) }
+        var productPriority by remember { mutableStateOf(TextFieldValue(priority)) }
+        var productCategory by remember { mutableStateOf(TextFieldValue(category)) }
 
         OutlinedTextField(
-            value = productName,
-            onValueChange = { productName = it },
-            label = { Text(text = "Product name *") },
+            value = productTitle,
+            onValueChange = { productTitle = it },
+            label = { Text(text = " Title *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
-            value = productQuantity,
-            onValueChange = { productQuantity = it },
-            label = { Text(text = "Product quantity *") },
+            value = productDescription,
+            onValueChange = { productDescription = it },
+            label = { Text(text = "Description *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
-            value = productPrice,
-            onValueChange = { productPrice = it },
-            label = { Text(text = "Product price *") },
+            value = productCompleted,
+            onValueChange = { productCompleted = it },
+            label = { Text(text = " Completed*") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+
+        OutlinedTextField(
+            value = productDueDate,
+            onValueChange = { productDueDate = it },
+            label = { Text(text = " DueDate*") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+
+        OutlinedTextField(
+            value = productPriority,
+            onValueChange = { productPriority = it },
+            label = { Text(text = " Priority*") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+
+        OutlinedTextField(
+            value = productCategory,
+            onValueChange = { productCategory = it },
+            label = { Text(text = " Category*") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
 
@@ -113,10 +152,11 @@ fun UpdateProductsScreen(navController: NavHostController,id:String) {
 
         Button(onClick = {
             //-----------WRITE THE UPDATE LOGIC HERE---------------//
-            var productRepository = ProductViewModel(navController, context)
-            productRepository.updateProduct(productName.text.trim(),productQuantity.text.trim(),
-                productPrice.text.trim(),id)
-            navController.navigate(ROUTE_VIEW_PRODUCT)
+            var productRepository = ProductViewModel.ProductViewModel(navController, context)
+            productRepository.updateProduct(productTitle.text.trim(),productDescription.text.trim(),
+                productCompleted.text.trim(),productDueDate.text.trim(),productPriority.text.trim(),
+                productCategory.text.trim(),id)
+            navController.navigate(ROUTE_VIEW_TASK)
 
         }) {
             Text(text = "Update")

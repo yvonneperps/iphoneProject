@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.zack.iphoneproject.navigation.ROUTE_ADD_PRODUCT
-import com.zack.iphoneproject.navigation.ROUTE_VIEW_PRODUCT
+import com.zack.iphoneproject.navigation.ROUTE_ADD_TASK
+import com.zack.iphoneproject.navigation.ROUTE_VIEW_TASK
 
 //import com.zack.iphoneproject.navigation.ROUTE_ADD_PRODUCT
 //import com.zack.iphoneproject.navigation.ROUTE_VIEW_PRODUCT
@@ -31,28 +31,28 @@ import com.zack.iphoneproject.navigation.ROUTE_VIEW_PRODUCT
 fun HomeScreen(navController: NavController){
     Column(modifier = Modifier
         .fillMaxSize()
-        .background(Color.Red),
+        .background(Color.Blue),
         horizontalAlignment = Alignment.CenterHorizontally) {
         var context= LocalContext.current
         //  var productdata=productviewmodel(navController,context)
 
         Text(text = "Welcome to Home page",
             color = Color.Cyan,
-            fontFamily = FontFamily.Cursive,
+            fontFamily = FontFamily.SansSerif,
             fontSize = 30.sp)
         Spacer(modifier = Modifier.height(100.dp))
 
         Button(onClick = {
-            navController.navigate(ROUTE_ADD_PRODUCT)
+            navController.navigate(ROUTE_ADD_TASK)
         },modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Add Product")
+            Text(text = "Add Task")
         }
         Spacer(modifier = Modifier.height(100.dp))
 
         Button(onClick = {
-            navController.navigate(ROUTE_VIEW_PRODUCT)
+            navController.navigate(ROUTE_VIEW_TASK)
         },modifier = Modifier.fillMaxWidth()) {
-            Text(text = "View Product")
+            Text(text = "View Task")
         }
 
 
